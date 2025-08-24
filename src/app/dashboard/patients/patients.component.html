@@ -1,0 +1,36 @@
+<div class="patient-container">
+  <div class="header-section">
+    <h2>Patients List</h2>
+    <button class="add-btn" (click)="navigateToAddPatient()">+ Add Patient</button>
+  </div>
+
+  @if (isLoading) {
+    <p class="loading-text">Loading patients...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error-text">{{ errorMessage }}</p>
+  }
+
+  @if (!isLoading && patients.length > 0) {
+    <div class="patient-list">
+      @for (patient of patients; track patient.patientID) {
+        <div class="patient-card">
+          <h3>{{ patient.patientName }}</h3>
+          <p><strong>Age:</strong> {{ patient.patientAge }}</p>
+          <p><strong>Email:</strong> {{ patient.patientEmail }}</p>
+          <p><strong>Phone:</strong> {{ patient.patientPhoneNumber }}</p>
+
+          <div class="actions">
+            <button class="delete-btn" (click)="deletePatient(patient.patientID)">Delete</button>
+            <button class="update-btn" (click)="updatePatient(patient.patientID)">Update</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!isLoading && patients.length === 0) {
+    <p class="empty-text">No patients found.</p>
+  }
+</div>

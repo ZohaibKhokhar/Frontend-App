@@ -1,0 +1,51 @@
+
+
+<div class="form-container">
+  <h2 class="form-title">{{ isEditMode ? 'Update Patient Visit' : 'Add Patient Visit' }}</h2>
+
+  <form [formGroup]="patientVisitForm" (ngSubmit)="onSubmit()" class="patient-visit-form">
+    <div class="form-group">
+      <label>Patient:</label>
+      <select formControlName="patientID">
+        <option value="" disabled>Select Patient</option>
+        @for (patient of patients; track patient.patientID) {
+          <option [value]="patient.patientID">{{ patient.patientName }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Doctor:</label>
+      <select formControlName="doctorID">
+        <option value="" disabled>Select Doctor</option>
+        @for (doctor of doctors; track doctor.doctorID) {
+          <option [value]="doctor.doctorID">{{ doctor.doctorName }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Visit Type:</label>
+      <select formControlName="visitTypeID">
+        <option value="" disabled>Select Visit Type</option>
+        @for (type of visitTypes; track type.visitTypeID) {
+          <option [value]="type.visitTypeID">{{ type.typeName }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Visit Date:</label>
+      <input type="datetime-local" formControlName="visitDate" />
+    </div>
+
+    <div class="form-group">
+      <label>Description:</label>
+      <textarea formControlName="description" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" [disabled]="patientVisitForm.invalid">
+      {{ isEditMode ? 'Update' : 'Add' }} Visit
+    </button>
+  </form>
+</div>

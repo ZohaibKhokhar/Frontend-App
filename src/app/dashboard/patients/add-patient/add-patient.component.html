@@ -1,0 +1,32 @@
+<div class="add-patient-container">
+
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Update Patient' : 'Add Patient' }}</h2>
+
+    <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="patientName">Name:</label>
+        <input id="patientName" formControlName="patientName" placeholder="Enter patient name" />
+      </div>
+
+      <div class="form-group">
+        <label for="patientAge">Age:</label>
+        <input id="patientAge" type="number" formControlName="patientAge" placeholder="Enter patient age" />
+      </div>
+
+      <div class="form-group">
+        <label for="patientEmail">Email:</label>
+        <input id="patientEmail" type="email" formControlName="patientEmail" placeholder="Enter patient email" />
+      </div>
+
+      <div class="form-group">
+        <label for="patientPhoneNumber">Phone:</label>
+        <input id="patientPhoneNumber" formControlName="patientPhoneNumber" placeholder="Enter phone number" />
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="patientForm.invalid">
+        {{ isEditMode ? 'Update' : 'Add' }} Patient
+      </button>
+    </form>
+  </div>
+</div>

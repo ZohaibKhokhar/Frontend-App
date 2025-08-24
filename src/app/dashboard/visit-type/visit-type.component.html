@@ -1,0 +1,32 @@
+<div class="visit-type-container">
+  <div class="visit-type-header">
+    <h2>Visit Types</h2>
+    <button class="add-btn" (click)="navigateToAddVisitType()">+ Add Visit Type</button>
+  </div>
+
+  @if (isLoading) {
+    <p class="loading-text">Loading visit types...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error-text">{{ errorMessage }}</p>
+  }
+
+  @if (!isLoading && visitTypes.length > 0) {
+    <div class="visit-type-list">
+      @for (visitType of visitTypes; track visitType.visitTypeID) {
+        <div class="visit-type-card">
+          <h3>{{ visitType.typeName }}</h3>
+          <div class="actions">
+            <button class="delete-btn" (click)="deleteVisitType(visitType.visitTypeID)">🗑 Delete</button>
+            <button class="update-btn" (click)="updateVisitType(visitType.visitTypeID)">✏ Update</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!isLoading && visitTypes.length === 0) {
+    <p class="empty-text">No visit types found.</p>
+  }
+</div>

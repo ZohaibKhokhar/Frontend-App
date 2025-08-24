@@ -1,0 +1,38 @@
+<div class="patient-visits-page">
+  <header class="header">
+    <h1>Patient Visits</h1>
+    <button class="add-btn" (click)="navigateToAddPatientVisit()">+ Add Patient Visit</button>
+  </header>
+
+  <section class="content">
+    @if(isLoading) {
+      <p>Loading patient visits...</p>
+    }
+    @if(errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    @if(!isLoading && patientVisits.length > 0) {
+      <div class="patient-visits-grid">
+        @for (visit of patientVisits; track visit.visitID) {
+          <div class="patient-visit-card">
+            <h3>{{ getPatientName(visit.patientID) }}</h3>
+            <p><strong>Doctor:</strong> {{ getDoctorName(visit.doctorID) }}</p>
+            <p><strong>Visit Type:</strong> {{ getVisitTypeName(visit.visitTypeID) }}</p>
+            <p><strong>Date:</strong> {{ visit.visitDate | date: 'short' }}</p>
+            <p><strong>Description:</strong> {{ visit.description }}</p>
+
+            <div class="actions">
+              <button class="delete-btn" (click)="deletePatientVisit(visit.visitID)">Delete</button>
+              <button class="update-btn" (click)="updatePatientVisit(visit.visitID)">Update</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if(!isLoading && patientVisits.length === 0) {
+      <p class="no-data">No patient visits found.</p>
+    }
+  </section>
+</div>

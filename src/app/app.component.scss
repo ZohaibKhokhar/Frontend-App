@@ -1,0 +1,62 @@
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #f5f7fa;
+  border-bottom: 1px solid #e2e6ea;
+}
+
+.app-title {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e4d8c;
+  letter-spacing: 1px;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #1e4d8c;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #163b6b;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #e2e6ea;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #cfd4da;
+  transform: translateY(-1px);
+}
+
+.btn-logout {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-logout:hover {
+  background-color: #a71d2a;
+  transform: translateY(-1px);
+}

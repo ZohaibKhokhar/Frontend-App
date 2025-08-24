@@ -1,0 +1,117 @@
+.patient-visits-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; /* Prevent overflow on small screens */
+
+    h1 {
+      font-size: 2rem;
+      margin: 0;
+      flex: 1; /* Allow it to shrink if needed */
+    }
+
+    .add-btn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      white-space: nowrap; /* Prevent text breaking */
+      margin-top: 0.5rem; /* For small screen spacing */
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+  }
+
+  .patient-visits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .patient-visit-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    max-width: 100%; /* Prevent card overflow */
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0.3rem 0;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .actions {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      .delete-btn {
+        background: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background: #a71d2a;
+        }
+      }
+
+      .update-btn {
+        background: #28a745;
+        color: #fff;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background: #1e7e34;
+        }
+      }
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+}

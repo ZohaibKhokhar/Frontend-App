@@ -1,0 +1,17 @@
+<div class="visit-type-container">
+  
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Update Visit Type' : 'Add Visit Type' }}</h2>
+
+    <form [formGroup]="visitTypeForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="typeName">Type Name:</label>
+        <input id="typeName" formControlName="typeName" placeholder="Enter visit type name" />
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="visitTypeForm.invalid">
+        {{ isEditMode ? 'Update' : 'Add' }} Visit Type
+      </button>
+    </form>
+  </div>
+</div>

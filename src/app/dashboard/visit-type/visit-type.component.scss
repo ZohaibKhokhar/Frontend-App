@@ -1,0 +1,91 @@
+.visit-type-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.visit-type-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.visit-type-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.add-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #45a049;
+}
+
+.visit-type-list {
+  display: grid;
+  gap: 15px;
+}
+
+.visit-type-card {
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.visit-type-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.actions button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.update-btn {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.update-btn:hover {
+  background-color: #2980b9;
+}
+
+.loading-text, .error-text, .empty-text {
+  font-size: 1rem;
+  margin-top: 15px;
+}
+
+.error-text {
+  color: red;
+}
+
+.empty-text {
+  color: #555;
+}

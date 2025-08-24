@@ -1,0 +1,43 @@
+<div class="doctor-container">
+  <div class="doctor-header">
+    <h2><i class="fas fa-user-md"></i> Doctors List</h2>
+    <button class="btn-add" (click)="navigateToAddDoctor()">
+      <i class="fas fa-plus-circle"></i> Add Doctor
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <p class="loading-text">Loading doctors...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error-text">{{ errorMessage }}</p>
+  }
+
+  @if (!isLoading && doctors.length > 0) {
+    <div class="doctor-list">
+      @for (doctor of doctors; track doctor.doctorID) {
+        <div class="doctor-card">
+          <div class="doctor-info">
+            <h3><i class="fas fa-user"></i> {{ doctor.doctorName }}</h3>
+            <p><strong>Age:</strong> {{ doctor.doctorAge }}</p>
+            <p><strong>Email:</strong> {{ doctor.doctorEmail }}</p>
+            <p><strong>Phone:</strong> {{ doctor.doctorPhoneNumber }}</p>
+          </div>
+          <div class="doctor-actions">
+            <button class="btn-update" (click)="updateDoctor(doctor.doctorID)">
+              <i class="fas fa-edit"></i> Update
+            </button>
+            <button class="btn-delete" (click)="deleteDoctor(doctor.doctorID)">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!isLoading && doctors.length === 0) {
+    <p class="empty-text">No doctors found.</p>
+  }
+</div>
