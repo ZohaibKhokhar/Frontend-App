@@ -55,13 +55,23 @@ export class AddDoctorComponent implements OnInit {
     const doctorData = this.doctorForm.value;
 
     if (this.isEditMode) {
-      this.doctorService.updateDoctor(this.doctorId, doctorData).subscribe(() => {
-        this.router.navigate(['/doctors']);
-      });
+      this.doctorService.updateDoctor(this.doctorId, doctorData).subscribe({
+  next: () => {
+    this.router.navigate(['/doctors']);
+  },
+  error: () => {
+    alert("Failed to update doctor");
+  }
+});
     } else {
-      this.doctorService.addDoctor(doctorData).subscribe(() => {
-        this.router.navigate(['/doctors']);
-      });
+      this.doctorService.addDoctor(doctorData).subscribe({
+  next: () => {
+    this.router.navigate(['/doctors']);
+  },
+  error: () => {
+    alert("Failed to add doctor please make sure all inputs are correct");
+  }
+});
     }
   }
 }

@@ -98,13 +98,23 @@ export class AddPatientVisitComponent implements OnInit {
     const visitData: PatientVisitCreate = this.patientVisitForm.value;
 
     if (this.isEditMode) {
-      this.patientVisitService.updatePatientVisit(this.visitId, visitData).subscribe(() => {
-        this.router.navigate(['/patient-visits']);
-      });
+      this.patientVisitService.updatePatientVisit(this.visitId, visitData).subscribe({
+  next: () => {
+    this.router.navigate(['/patient-visits']);
+  },
+  error: () => {
+    alert("Failed to update patient visit");
+  }
+});
     } else {
-      this.patientVisitService.addPatientVisit(visitData).subscribe(() => {
-        this.router.navigate(['/patient-visits']);
-      });
+      this.patientVisitService.addPatientVisit(visitData).subscribe({
+  next: () => {
+    this.router.navigate(['/patient-visits']);
+  },
+  error: () => {
+    alert("Failed to add patient please make sure all inputs are correct");
+  }
+});
     }
   }
 }

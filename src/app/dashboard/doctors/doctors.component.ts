@@ -43,7 +43,15 @@ export class DoctorsComponent implements OnInit {
         console.log('Doctor deleted successfully');
       },
       error: (err) => {
-        console.error('Error deleting doctor:', err);
+        console.log(err);
+        if(err.status==500)
+        {
+          alert(`Cannot delete doctor due to constraints`);
+        }
+        else{
+            alert(`Error deleting doctor`);
+        }
+          
       }
     });
   }
