@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DoctorService } from '../../../../services/doctor/doctor.service';
 import { Location } from '@angular/common';
+import { AlphaSpaceOnlyDirective } from '../../../../directives/alpha-space-only.directive';
 
 @Component({
   selector: 'app-add-doctor',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,AlphaSpaceOnlyDirective],
   templateUrl: './add-doctor.component.html',
   styleUrl: './add-doctor.component.scss'
 })

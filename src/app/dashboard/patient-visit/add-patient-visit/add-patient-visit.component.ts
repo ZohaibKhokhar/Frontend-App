@@ -13,11 +13,12 @@ import { PatientRead } from '../../../../models/patient/patient-read.model';
 import { DoctorRead } from '../../../../models/doctor/doctor-read.model';
 import { VisitTypeRead } from '../../../../models/visit-type/visit-type-read.model';
 import { PatientVisitCreate } from '../../../../models/patient-visit/patient-visit-create.model';
+import { AlphaSpaceOnlyDirective } from '../../../../directives/alpha-space-only.directive';
 
 @Component({
   selector: 'app-add-patient-visit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,AlphaSpaceOnlyDirective],
   templateUrl: './add-patient-visit.component.html',
   styleUrl: './add-patient-visit.component.scss'
 })
