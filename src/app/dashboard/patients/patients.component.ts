@@ -1,51 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientRead } from '../../../models/patient/patient-read.model';
-import { PatientService } from '../../../services/patient/patient.service';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { PatientRead } from '../../../models/patient/patient-read.model';
+import { GetPatients, DeletePatient } from '../../../stores/states/patient/patient.actions';
+import { PatientState } from '../../../stores/states/patient/patient.state';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports: [], 
+  imports: [CommonModule],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.scss'
 })
 export class PatientsComponent implements OnInit {
-  patients: PatientRead[] = [];
-  isLoading = true;
-  errorMessage: string | null = null;
+  @Select(PatientState.getPatients) patients$!: Observable<PatientRead[]>;
+  @Select(PatientState.getLoading) isLoading$!: Observable<boolean>;
+  @Select(PatientState.getError) errorMessage$!: Observable<string | null>;
 
-  constructor(private patientService: PatientService, private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadPatients();
+    this.store.dispatch(new GetPatients());
   }
-
-  loadPatients() {
-    this.patientService.getPatients().subscribe({
-      next: (data) => {
-        this.patients = data;
-        this.isLoading = false;
-        console.log('Patients loaded successfully', data);
-      },
-      error: (err) => {
-        console.error('Error fetching patients:', err);
-        this.errorMessage = 'Failed to load patients.';
-        this.isLoading = false;
-      }
-    });
-  }
-
+  
   deletePatient(id: number) {
-    this.patientService.deletePatient(id).subscribe({
-      next: () => {
-        this.patients = this.patients.filter(patient => patient.patientID !== id);
-        console.log('Patient deleted successfully');
-      },
-      error: (err) => {
-        console.error('Error deleting patient:', err);
-      }
-    });
+      if(!confirm('Are you sure you want to delete this patient?')) 
+      return;
+    this.store.dispatch(new DeletePatient(id));
   }
 
   updatePatient(id: number) {

@@ -1,11 +1,13 @@
 <div class="top-container">
   <h1 class="app-title">Patient Visit Manager</h1>
 
-  @if (isLoggedIn) {
+  @if (isLoggedIn$ | async) {
     <div class="nav-actions">
       <button class="btn-secondary back-btn" (click)="navigateBack()">Back</button>
       <button class="btn-logout" (click)="logout()">Logout</button>
-      <button class="btn-primary" (click)="navigateToDashBoard()">Dashboard</button>
+      <button class="btn-primary" (click)="navigateToDashBoard()">
+        {{ userRole === 'admin' ? 'Admin Dashboard' : userRole === 'receptionist' ? 'Receptionist Dashboard' : 'Dashboard' }}
+      </button>
     </div>
   }
 </div>

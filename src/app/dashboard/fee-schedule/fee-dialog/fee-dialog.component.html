@@ -1,0 +1,60 @@
+<div class="fee-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    {{ data.fee ? 'Update Fee' : 'Add Fee' }} for {{ data.visitType.typeName }}
+  </h2>
+
+  <div class="dialog-content">
+    <form [formGroup]="feeForm" (ngSubmit)="onSubmit()" class="fee-form">
+      <div class="form-group">
+        <label for="fee" class="input-label">Fee Amount ($)</label>
+        <input 
+          type="number" 
+          id="fee" 
+          formControlName="fee" 
+          class="fee-input"
+          placeholder="Enter fee amount"
+          step="0.01"
+          min="0"
+        />
+
+        @if (feeForm.controls['fee'].invalid && feeForm.controls['fee'].touched) {
+          <div class="validation-errors">
+            @if (feeForm.controls['fee'].errors?.['required']) {
+              <small class="error-text">
+                ⚠️ Fee is required.
+              </small>
+            }
+            @if (feeForm.controls['fee'].errors?.['min']) {
+              <small class="error-text">
+                ⚠️ Fee must be a positive amount.
+              </small>
+            }
+            @if (feeForm.controls['fee'].errors?.['max']) {
+              <small class="error-text">
+                ⚠️ Fee cannot exceed ${{ data.maxFee }}.
+              </small>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="feeForm.invalid"
+          [class.btn-disabled]="feeForm.invalid"
+        >
+          {{ data.fee ? 'Update Fee' : 'Add Fee' }}
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

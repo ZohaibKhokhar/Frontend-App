@@ -4,17 +4,17 @@
     <button class="add-btn" (click)="navigateToAddPatient()">+ Add Patient</button>
   </div>
 
-  @if (isLoading) {
+  @if (isLoading$ | async) {
     <p class="loading-text">Loading patients...</p>
   }
 
-  @if (errorMessage) {
-    <p class="error-text">{{ errorMessage }}</p>
+  @if (errorMessage$ | async; as error) {
+    <p class="error-text">{{ error }}</p>
   }
 
-  @if (!isLoading && patients.length > 0) {
+  @if (!(isLoading$ | async) && (((patients$ | async)?.length ?? 0) > 0)) {
     <div class="patient-list">
-      @for (patient of patients; track patient.patientID) {
+      @for (patient of (patients$ | async); track patient.patientID) {
         <div class="patient-card">
           <h3>{{ patient.patientName }}</h3>
           <p><strong>Age:</strong> {{ patient.patientAge }}</p>
@@ -30,7 +30,7 @@
     </div>
   }
 
-  @if (!isLoading && patients.length === 0) {
+  @if (!(isLoading$ | async) && (((patients$ | async)?.length ?? 0) === 0)) {
     <p class="empty-text">No patients found.</p>
   }
 </div>

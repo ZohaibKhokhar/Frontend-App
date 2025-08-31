@@ -6,17 +6,17 @@
     </button>
   </div>
 
-  @if (isLoading) {
+  @if (isLoading$ | async) {
     <p class="loading-text">Loading doctors...</p>
   }
 
-  @if (errorMessage) {
-    <p class="error-text">{{ errorMessage }}</p>
+  @if (errorMessage$ | async; as error) {
+    <p class="error-text">{{ error }}</p>
   }
 
-  @if (!isLoading && doctors.length > 0) {
+  @if (!(isLoading$ | async) && (((doctors$ | async) ?? []).length > 0)) {
     <div class="doctor-list">
-      @for (doctor of doctors; track doctor.doctorID) {
+      @for (doctor of ((doctors$ | async) ?? []); track doctor.doctorID) {
         <div class="doctor-card">
           <div class="doctor-info">
             <h3><i class="fas fa-user"></i> {{ doctor.doctorName }}</h3>
@@ -37,7 +37,7 @@
     </div>
   }
 
-  @if (!isLoading && doctors.length === 0) {
+  @if (!(isLoading$ | async) && (((doctors$ | async) ?? []).length === 0)) {
     <p class="empty-text">No doctors found.</p>
   }
 </div>

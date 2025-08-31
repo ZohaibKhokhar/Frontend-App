@@ -1,37 +1,42 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { VisitTypeRead } from '../../../models/visit-type/visit-type-read.model';
-import { VisitTypeService } from '../../../services/visit-type/visit-type.service';
-import { Router } from '@angular/router';
+import { VisitTypeState } from '../../../stores/states/visittype/visit-type.state';
+import { LoadVisitTypes, DeleteVisitType } from '../../../stores/states/visittype/visit-type.actions';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-visit-types',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './visit-type.component.html',
-  styleUrl: './visit-type.component.scss'
+  styleUrls: ['./visit-type.component.scss']
 })
 export class VisitTypeComponent implements OnInit {
-  visitTypes: VisitTypeRead[] = [];
+  @Select(VisitTypeState.getVisitTypes) visitTypes$!: Observable<VisitTypeRead[]>;
+
   isLoading = true;
   errorMessage: string | null = null;
+  deleteLoading = new Set<number>(); // Track which items are being deleted
 
-  constructor(private visitTypeService: VisitTypeService, private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.loadVisitTypes();
   }
 
   loadVisitTypes() {
-    this.visitTypeService.getVisitTypes().subscribe({
-      next: (data) => {
-        this.visitTypes = data;
-        console.log(this.visitTypes);
-        console.log(data);
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    this.store.dispatch(new LoadVisitTypes()).subscribe({
+      next: () => {
         this.isLoading = false;
-        console.log('Visit types loaded successfully', data);
       },
       error: (err) => {
-        console.error('Error fetching visit types:', err);
+        console.error('Error loading visit types:', err);
         this.errorMessage = 'Failed to load visit types.';
         this.isLoading = false;
       }
@@ -39,16 +44,25 @@ export class VisitTypeComponent implements OnInit {
   }
 
   deleteVisitType(id: number) {
-    console.log(id);
-    this.visitTypeService.deleteVisitType(id).subscribe({
-      next: () => {
-        this.visitTypes = this.visitTypes.filter(visitType => visitType.visitTypeID !== id);
-        console.log('Visit type deleted successfully');
-      },
-      error: (err) => {
-        console.error('Error deleting visit type:', err);
-      }
-    });
+    if (confirm('Are you sure you want to delete this visit type?')) {
+      this.deleteLoading.add(id);
+      
+      this.store.dispatch(new DeleteVisitType(id)).subscribe({
+        next: () => {
+          console.log('Visit type deleted successfully');
+          this.deleteLoading.delete(id);
+        },
+        error: (err) => {
+          console.error('Error deleting visit type:', err);
+          this.errorMessage = 'Failed to delete visit type.';
+          this.deleteLoading.delete(id);
+        }
+      });
+    }
+  }
+
+  isDeleting(id: number): boolean {
+    return this.deleteLoading.has(id);
   }
 
   updateVisitType(id: number) {

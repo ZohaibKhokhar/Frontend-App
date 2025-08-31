@@ -12,21 +12,27 @@
     <p class="error-text">{{ errorMessage }}</p>
   }
 
-  @if (!isLoading && visitTypes.length > 0) {
-    <div class="visit-type-list">
-      @for (visitType of visitTypes; track visitType.visitTypeID) {
-        <div class="visit-type-card">
-          <h3>{{ visitType.typeName }}</h3>
-          <div class="actions">
-            <button class="delete-btn" (click)="deleteVisitType(visitType.visitTypeID)">🗑 Delete</button>
-            <button class="update-btn" (click)="updateVisitType(visitType.visitTypeID)">✏ Update</button>
-          </div>
+  @if (!isLoading) {
+    @if (visitTypes$ | async; as visitTypes) {
+      @if (visitTypes.length > 0) {
+        <div class="visit-type-list">
+          @for (visitType of visitTypes; track visitType.visitTypeID) {
+            <div class="visit-type-card">
+              <h3>{{ visitType.typeName }}</h3>
+              <div class="actions">
+                @if (isDeleting(visitType.visitTypeID)) {
+                  <button class="delete-btn" disabled>Deleting...</button>
+                } @else {
+                  <button class="delete-btn" (click)="deleteVisitType(visitType.visitTypeID)">🗑 Delete</button>
+                }
+                <button class="update-btn" (click)="updateVisitType(visitType.visitTypeID)">✏ Update</button>
+              </div>
+            </div>
+          }
         </div>
+      } @else {
+        <p class="empty-text">No visit types found.</p>
       }
-    </div>
-  }
-
-  @if (!isLoading && visitTypes.length === 0) {
-    <p class="empty-text">No visit types found.</p>
+    }
   }
 </div>

@@ -110,7 +110,8 @@ export class AddPatientVisitComponent implements OnInit {
     } else {
       this.patientVisitService.addPatientVisit(visitData).subscribe({
   next: () => {
-    this.router.navigate(['/patient-visits']);
+      alert("Patient visit added successfully");
+      this.location.back();
   },
   error: () => {
     alert("Failed to add patient please make sure all inputs are correct");

@@ -1,66 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { DoctorRead } from '../../../models/doctor/doctor-read.model';
-import { DoctorService } from '../../../services/doctor/doctor.service';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { DoctorRead } from '../../../models/doctor/doctor-read.model';
+import { GetDoctors, DeleteDoctor } from '../../../stores/states/doctor/doctor.actions';
+import { DoctorState } from '../../../stores/states/doctor/doctor.state';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-doctors',
   standalone: true,
-  imports: [], 
+  imports: [CommonModule],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.scss'
 })
 export class DoctorsComponent implements OnInit {
-  doctors: DoctorRead[] = [];
-  isLoading = true;
-  errorMessage: string | null = null;
+  @Select(DoctorState.doctors) doctors$!: Observable<DoctorRead[]>;
+  @Select(DoctorState.loading) isLoading$!: Observable<boolean>;
+  @Select(DoctorState.error) errorMessage$!: Observable<string | null>;
 
-  constructor(private doctorService: DoctorService,private router:Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadDoctors();
+    this.store.dispatch(new GetDoctors());
   }
 
-  loadDoctors() {
-    this.doctorService.getDoctors().subscribe({
-      next: (data) => {
-        this.doctors = data;
-        this.isLoading = false;
-        console.log('everything is fine',data);
-      },
-      error: (err) => {
-        console.error('Error fetching doctors:', err);
-        this.errorMessage = 'Failed to load doctors.';
-        this.isLoading = false;
-      }
-    });
+  deleteDoctor(id: number) {
+    if(confirm('Are you sure you want to delete this doctor?'))
+    {
+      this.store.dispatch(new DeleteDoctor(id));
+    }
   }
 
-  deleteDoctor(id:number){
-    this.doctorService.deleteDoctor(id).subscribe({
-      next: () => {
-        this.doctors = this.doctors.filter(doctor => doctor.doctorID !== id);
-        console.log('Doctor deleted successfully');
-      },
-      error: (err) => {
-        console.log(err);
-        if(err.status==500)
-        {
-          alert(`Cannot delete doctor due to constraints`);
-        }
-        else{
-            alert(`Error deleting doctor`);
-        }
-          
-      }
-    });
-  }
-
-  updateDoctor(id:number){
+  updateDoctor(id: number) {
     this.router.navigate(['/doctors/update', id]);
   }
 
-  navigateToAddDoctor(){
+  navigateToAddDoctor() {
     this.router.navigate(['/doctors/add']);
   }
 }

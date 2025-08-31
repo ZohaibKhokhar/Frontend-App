@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PatientVisitCreate } from '../../models/patient-visit/patient-visit-create.model';
 import { PatientVisitRead } from '../../models/patient-visit/patient-visit-read.model';
@@ -14,32 +14,23 @@ export class PatientVisitService {
 
   constructor(private http: HttpClient) {}
 
-  // Helper to get headers with JWT
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem(environment.tokenKey); 
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   getPatientVisits(): Observable<PatientVisitRead[]> {
-    return this.http.get<PatientVisitRead[]>(this.apiUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<PatientVisitRead[]>(this.apiUrl);
   }
 
   getPatientVisitById(id: number): Observable<PatientVisitRead> {
-    return this.http.get<PatientVisitRead>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<PatientVisitRead>(`${this.apiUrl}/${id}`);
   }
 
   addPatientVisit(patientVisit: PatientVisitCreate): Observable<PatientVisitRead> {
-    return this.http.post<PatientVisitRead>(this.apiUrl, patientVisit, { headers: this.getAuthHeaders() });
+    return this.http.post<PatientVisitRead>(this.apiUrl, patientVisit);
   }
 
   updatePatientVisit(id: number, patientVisit: PatientVisitCreate): Observable<PatientVisitRead> {
-    return this.http.put<PatientVisitRead>(`${this.apiUrl}/${id}`, patientVisit, { headers: this.getAuthHeaders() });
+    return this.http.put<PatientVisitRead>(`${this.apiUrl}/${id}`, patientVisit);
   }
 
   deletePatientVisit(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

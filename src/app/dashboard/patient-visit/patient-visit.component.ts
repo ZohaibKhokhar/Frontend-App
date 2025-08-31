@@ -107,6 +107,9 @@ export class PatientVisitComponent implements OnInit {
   }
 
   deletePatientVisit(id: number) {
+    if(!confirm('Are you sure you want to delete this patient visit?')) 
+      return;
+
     this.patientVisitService.deletePatientVisit(id).subscribe({
       next: () => {
         this.patientVisits = this.patientVisits.filter(visit => visit.visitID !== id);

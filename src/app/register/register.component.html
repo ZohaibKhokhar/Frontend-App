@@ -22,12 +22,11 @@
     Already have an account? <a routerLink="/login">Login</a>
   </p>
 
-  @if(successMessage)
-  {
-       <p class="success-message">{{ successMessage }}</p>
+  @if (successMessage) {
+    <p class="success-message">{{ successMessage }}</p>
   }
-  @if(errorMessage)
-  {
-      <p class="error-message">{{ errorMessage }}</p>
+
+  @if (errorMessage$ | async; as error) {
+    <p class="error-message">{{ error }}</p>
   }
 </form>

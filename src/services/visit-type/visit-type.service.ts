@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VisitTypeRead } from '../../models/visit-type/visit-type-read.model';
 import { VisitTypeCreate } from '../../models/visit-type/visit-type-create.model';
@@ -14,32 +14,23 @@ export class VisitTypeService {
 
   constructor(private http: HttpClient) {}
 
-  
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem(environment.tokenKey);
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   getVisitTypes(): Observable<VisitTypeRead[]> {
-    return this.http.get<VisitTypeRead[]>(this.apiUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<VisitTypeRead[]>(this.apiUrl);
   }
 
   getVisitTypeById(id: number): Observable<VisitTypeRead> {
-    return this.http.get<VisitTypeRead>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<VisitTypeRead>(`${this.apiUrl}/${id}`);
   }
 
   addVisitType(visitType: VisitTypeCreate): Observable<VisitTypeRead> {
-    return this.http.post<VisitTypeRead>(this.apiUrl, visitType, { headers: this.getAuthHeaders() });
+    return this.http.post<VisitTypeRead>(this.apiUrl, visitType);
   }
 
   updateVisitType(id: number, visitType: VisitTypeCreate): Observable<VisitTypeRead> {
-    return this.http.put<VisitTypeRead>(`${this.apiUrl}/${id}`, visitType, { headers: this.getAuthHeaders() });
+    return this.http.put<VisitTypeRead>(`${this.apiUrl}/${id}`, visitType);
   }
 
   deleteVisitType(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

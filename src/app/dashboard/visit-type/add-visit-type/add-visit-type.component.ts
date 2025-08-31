@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { VisitTypeService } from '../../../../services/visit-type/visit-type.service';
 import { Location } from '@angular/common';
+import { AlphaSpaceOnlyDirective } from '../../../../directives/alpha-space-only.directive';
 
 @Component({
   selector: 'app-add-visit-type',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AlphaSpaceOnlyDirective],
   templateUrl: './add-visit-type.component.html',
   styleUrl: './add-visit-type.component.scss'
 })

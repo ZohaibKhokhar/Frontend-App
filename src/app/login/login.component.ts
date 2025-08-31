@@ -1,25 +1,29 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
-import { OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { AlphaSpaceOnlyDirective } from '../../directives/alpha-space-only.directive';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { Login } from '../../stores/states/auth/auth.actions';
+import { AuthState } from '../../stores/states/auth/auth.state';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [ReactiveFormsModule,RouterLink]
+  imports: [ReactiveFormsModule, RouterLink,CommonModule]
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  errorMessage = '';
+  userRole: string = '';
+  @Select(AuthState.getError) errorMessage$!: Observable<string | null>;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private store: Store,
     private router: Router
   ) {}
 
@@ -31,11 +35,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: () => this.router.navigate(['/dashboard']),
-        error: (err) => this.errorMessage = err.error.message || 'Login failed'
-      });
-    }
+  if (this.loginForm.valid) {
+    this.store.dispatch(new Login(this.loginForm.value)).subscribe({
+      next: () => {
+        this.userRole = localStorage.getItem(environment.roleKey) || '';
+        console.log('Login successful');
+        alert('Login successful');
+
+        if (this.userRole === 'Admin') {
+          this.router.navigate(['/dashboard']);
+        } else if (this.userRole === 'Receptionist') {
+          this.router.navigate(['/receptionist-dashboard']);
+        } else {
+          this.router.navigate(['/dashboard']); 
+        }
+      },
+      error: () => alert('Login failed')
+    });
   }
+}
 }

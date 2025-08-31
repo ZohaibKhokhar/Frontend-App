@@ -1,0 +1,62 @@
+<div class="fee-schedule-page">
+  <div class="header-section">
+    <h1>Fee Schedule</h1>
+    <p class="subtitle">Manage fees for different visit types</p>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-section">
+      <div class="spinner"></div>
+      <p>Loading fee schedules...</p>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      <span class="error-icon">⚠️</span>
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (!isLoading && visitTypes.length) {
+    <div class="table-container">
+      <table class="fee-table">
+        <thead>
+          <tr>
+            <th>Visit Type</th>
+            <th>Fee</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (vt of visitTypes; track vt.visitTypeID) {
+            <tr>
+              <td class="visit-type-name">{{ vt.typeName }}</td>
+              <td class="fee-amount">{{ getFeeForVisitType(vt.visitTypeID)?.fee || 'Not Set' }}</td>
+              <td class="action-buttons">
+                <button
+                  class="btn btn-primary"
+                  (click)="openFeeDialog(vt, getFeeForVisitType(vt.visitTypeID))">
+                  {{ getFeeForVisitType(vt.visitTypeID) ? 'Update' : 'Add' }}
+                </button>
+                @if (getFeeForVisitType(vt.visitTypeID)) {
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteFee(vt.visitTypeID)">
+                    Delete
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!isLoading && !visitTypes.length) {
+    <div class="empty-state">
+      <p>No visit types available. Please add visit types first.</p>
+    </div>
+  }
+</div>

@@ -6,7 +6,7 @@
     <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="patientName">Name:</label>
-        <input id="patientName" formControlName="patientName" placeholder="Enter patient name" />
+        <input id="patientName" formControlName="patientName" placeholder="Enter patient name" alphaSpaceOnly />
       </div>
 
       <div class="form-group">
