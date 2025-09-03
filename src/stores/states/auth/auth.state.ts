@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { environment } from '../../../environment/environment';
-import { Login, Logout, Register } from './auth.actions';
+import { changePassword, Login, Logout, Register } from './auth.actions';
 
 export interface AuthStateModel {
   token: string | null;
@@ -18,9 +18,9 @@ export interface AuthStateModel {
 @State<AuthStateModel>({
   name: 'auth',
   defaults: {
-    token: localStorage.getItem(environment.tokenKey),
+    token: sessionStorage.getItem(environment.tokenKey),
     user: null,
-    isAuthenticated: !!localStorage.getItem(environment.tokenKey),
+    isAuthenticated: !!sessionStorage.getItem(environment.tokenKey),
     loading: false,
     error: null
   }
@@ -58,8 +58,8 @@ export class AuthState {
     return this.http.post(`${environment.baseUrl}/User/login`, action.credentials).pipe(
       tap((response: any) => {
         if (response?.token) {
-          localStorage.setItem(environment.roleKey, response.role);
-          localStorage.setItem(environment.tokenKey, response.token);
+          sessionStorage.setItem(environment.roleKey, response.role);
+          sessionStorage.setItem(environment.tokenKey, response.token);
           ctx.patchState({
             token: response.token,
             isAuthenticated: true,
@@ -97,10 +97,12 @@ export class AuthState {
       })
     );
   }
+  
 
   @Action(Logout)
   logout(ctx: StateContext<AuthStateModel>) {
-    localStorage.removeItem(environment.tokenKey);
+    sessionStorage.removeItem(environment.tokenKey);
+    sessionStorage.removeItem(environment.roleKey);
     ctx.setState({
       token: null,
       user: null,
@@ -109,4 +111,23 @@ export class AuthState {
       error: null
     });
   }
+
+  @Action(changePassword)
+  changePassword(ctx: StateContext<AuthStateModel>,action:changePassword) {
+  ctx.patchState({ loading: true, error: null });
+
+    return this.http.post(`${environment.baseUrl}/User/change-password`, action.credentials).pipe(
+      tap(() => {
+        ctx.patchState({ loading: false, error: null });
+      }),
+      catchError((error) => {
+        ctx.patchState({
+          loading: false,
+          error: error?.error?.message || 'Failed To Change Password!'
+        });
+        return of(error);
+      })
+    );
+  }
+
 }

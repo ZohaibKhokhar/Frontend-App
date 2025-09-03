@@ -22,7 +22,7 @@ export class AuthService {
       tap((response: any) => {
         console.log(response);
         if (response.token) {
-          localStorage.setItem(this.tokenKey, response.token);
+          sessionStorage.setItem(this.tokenKey, response.token);
           this.isLoggedInSubject.next(true);
         }
       })
@@ -30,12 +30,12 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.tokenKey);
     this.isLoggedInSubject.next(false);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.tokenKey);
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -43,6 +43,6 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+    return !!sessionStorage.getItem(this.tokenKey);
   }
 }

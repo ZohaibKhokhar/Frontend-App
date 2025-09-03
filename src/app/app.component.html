@@ -5,6 +5,7 @@
     <div class="nav-actions">
       <button class="btn-secondary back-btn" (click)="navigateBack()">Back</button>
       <button class="btn-logout" (click)="logout()">Logout</button>
+      <button class="btn-change" (click)="navigatetoChangePassword()">Change Password</button>
       <button class="btn-primary" (click)="navigateToDashBoard()">
         {{ userRole === 'admin' ? 'Admin Dashboard' : userRole === 'receptionist' ? 'Receptionist Dashboard' : 'Dashboard' }}
       </button>

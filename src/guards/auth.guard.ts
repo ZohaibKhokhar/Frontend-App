@@ -9,8 +9,8 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const token = localStorage.getItem(environment.tokenKey);
-    const userRole = localStorage.getItem(environment.roleKey);
+    const token = sessionStorage.getItem(environment.tokenKey);
+    const userRole = sessionStorage.getItem(environment.roleKey);
     const allowedRoles = route.data['roles'] as string[];
 
     if (!token) {

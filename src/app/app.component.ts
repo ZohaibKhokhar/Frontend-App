@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   @Select(AuthState.isAuthenticated) isLoggedIn$!: Observable<boolean>;
 
   ngOnInit() {
-    this.userRole = localStorage.getItem(environment.roleKey) || '';
+    this.userRole = sessionStorage.getItem(environment.roleKey) || '';
   }
 
   private store = inject(Store);
@@ -32,6 +32,10 @@ export class AppComponent implements OnInit {
   logout() {  
     this.store.dispatch(new Logout());
     this.router.navigate(['/login']);
+  }
+
+  navigatetoChangePassword(){
+    this.router.navigate(['/change-password']);
   }
 
   navigateToDashBoard() {

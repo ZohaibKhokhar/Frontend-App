@@ -13,3 +13,7 @@ export class Logout {
   static readonly type = '[Auth] Logout';
 }
 
+export class changePassword{
+  static readonly type = '[Auth] Change-Password';
+   constructor(public credentials: { oldPassword: string; newPassword: string }) {}
+}

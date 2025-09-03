@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   if (this.loginForm.valid) {
     this.store.dispatch(new Login(this.loginForm.value)).subscribe({
       next: () => {
-        this.userRole = localStorage.getItem(environment.roleKey) || '';
+        this.userRole = sessionStorage.getItem(environment.roleKey) || '';
         console.log('Login successful');
         alert('Login successful');
 

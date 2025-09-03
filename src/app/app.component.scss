@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 30px;
+  padding: 20px 30px;
   background-color: #f5f7fa;
   border-bottom: 1px solid #e2e6ea;
 }
@@ -55,6 +55,12 @@ button {
   background-color: #dc3545;
   color: #fff;
 }
+
+.btn-change {
+  background-color: #530966;
+  color: #fff;
+}
+
 
 .btn-logout:hover {
   background-color: #a71d2a;

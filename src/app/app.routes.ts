@@ -13,6 +13,8 @@ import { AddVisitTypeComponent } from './dashboard/visit-type/add-visit-type/add
 import { AddPatientVisitComponent } from './dashboard/patient-visit/add-patient-visit/add-patient-visit.component';
 import { ReceptionistDashboardComponent } from './receptionist-dashboard/receptionist-dashboard.component';
 import { FeeScheduleComponent } from './dashboard/fee-schedule/fee-schedule.component';
+import { changePassword } from '../stores/states/auth/auth.actions';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 export const routes: Routes = [
     {
         path:'dashboard',
@@ -115,6 +117,12 @@ export const routes: Routes = [
         path:'fee-schedule',
         component: FeeScheduleComponent,
         canActivate: [AuthGuard],
+        data: { roles: ['Admin', 'Receptionist'] }
+    },
+    {
+        path:'change-password',
+        component:ChangePasswordComponent,
+        canActivate:[AuthGuard],
         data: { roles: ['Admin', 'Receptionist'] }
     },
     {

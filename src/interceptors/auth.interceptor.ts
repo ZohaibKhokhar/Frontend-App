@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(req);
     }
 
-    const token = localStorage.getItem(environment.tokenKey);
+    const token = sessionStorage.getItem(environment.tokenKey);
 
     if (token) {
         const clonedReq = req.clone({
